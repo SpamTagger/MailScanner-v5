@@ -149,8 +149,8 @@ sub LocalPostmaster {
           my $sysconf = SystemPref::create();
           if ( $sysconf) {
             $postmaster = $sysconf->getPref('sysadmin', '');
-          } 
-          if ($postmaster eq '') { 
+          }
+          if ($postmaster eq '') {
             $postmaster = getValue('summary_from', '', '');
           }
         }
@@ -170,7 +170,7 @@ sub getValue {
         if ($to =~ /\S+\@\S+/) {
           # user
           my $email = Email::create($to);
-          if (! $email) { 
+          if (! $email) {
             MailScanner::Log::InfoLog("Couldn't create user: $to");
             return $default;
           }

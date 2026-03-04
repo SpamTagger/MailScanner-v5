@@ -86,7 +86,7 @@ my($vardir) = $config{'VARDIR'};
     MailScanner::Log::WarnLog("Unable to initialise database connection: %s", $DBI::errstr);
    }
 
-   $sth = $dbh->prepare("INSERT INTO maillog (timestamp, id, size, from_address, from_domain, to_address, to_domain, subject, clientip, archive, isspam, ishighspam, issaspam, isrblspam, spamwhitelisted, spamblacklisted, sascore, spamreport, virusinfected, nameinfected, otherinfected, report, ismcp, ishighmcp, issamcp, mcpwhitelisted, mcpblacklisted, mcpsascore, mcpreport, hostname, date, time, headers, quarantined) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") or 
+   $sth = $dbh->prepare("INSERT INTO maillog (timestamp, id, size, from_address, from_domain, to_address, to_domain, subject, clientip, archive, isspam, ishighspam, issaspam, isrblspam, spamwhitelisted, spamblacklisted, sascore, spamreport, virusinfected, nameinfected, otherinfected, report, ismcp, ishighmcp, issamcp, mcpwhitelisted, mcpblacklisted, mcpsascore, mcpreport, hostname, date, time, headers, quarantined) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)") or
    MailScanner::Log::WarnLog($DBI::errstr);
  }
 
@@ -178,7 +178,7 @@ my($vardir) = $config{'VARDIR'};
     } else {
      MailScanner::Log::InfoLog("$$message{id}: Logged to MailWatch SQL");
     }
-    
+
     # Unset
     $message = undef;
 
@@ -317,7 +317,7 @@ my($vardir) = $config{'VARDIR'};
 
    if ($message->{batchdropped}) {
      MailScanner::Log::DebugLog("Counts for message ".$message->{id}." not updated cause batch has been dropped!");
-     return; 
+     return;
    }
 
    if ($quarantined > 0 ) {
@@ -447,7 +447,7 @@ sub updateCountFiles {
      return 0;
     }
   }
-  
+
   ## compute date
   my $filename = "";
   if ($date =~ m/(\d{4})\-(\d{2})\-(\d{2})/ ) {
@@ -468,7 +468,7 @@ sub updateCountFiles {
   my $c_bytes = 0;
   my $c_domains = 0;
   my $c_users = 0;
-  
+
   ## read existing counts
   if ( -f $file ) {
     if (!open(COUNTFILE, $file)) {
@@ -489,7 +489,7 @@ sub updateCountFiles {
         }
         if (/^NAMES\ (\d+)$/) {
            $c_names = $1;
-        } 
+        }
         if (/^OTHERS\ (\d+)$/) {
            $c_others = $1;
         }
@@ -538,7 +538,7 @@ sub updateCountFiles {
   } else {
    $c_cleans = $c_cleans + 1;
   }
-  
+
   ## finally write updates counts
   if (!open(COUNTFILE, ">$file")) {
     MailScanner::Log::InfoLog("Could not open counts file for writing: $file");
@@ -565,7 +565,7 @@ sub updateCountFiles {
   close COUNTFILE;
 
   #MailScanner::Log::InfoLog("Count updated on file $file ");
- return $ret;  
+ return $ret; 
 }
 
 
