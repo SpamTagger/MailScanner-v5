@@ -250,13 +250,13 @@ sub SpamChecks {
   MailScanner::SA::CheckForCacheExpire();
 
   ## SpamTagger
-  my $mc_msgpos = 0;
-  my $mc_nbmsgs = keys(%{$this->{messages}});
+  my $st_msgpos = 0;
+  my $st_nbmsgs = keys(%{$this->{messages}});
   ## end SpamTagger
 
   while(($id, $message) = each %{$this->{messages}}) {
     ## SpamTagger
-    $mc_msgpos++;
+    $st_msgpos++;
     ## end SpamTagger
     next if !$message->{scanmail};
     next if $message->{deleted};
@@ -265,8 +265,8 @@ sub SpamChecks {
  
     #print STDERR "Spam checks for $id\n";
     ## SpamTagger
-    $0 = 'MailScanner: spam checks ('.$mc_msgpos."/".$mc_nbmsgs.')';
-    $message->{current_status} = 'MailScanner: spam checks ('.$mc_msgpos."/".$mc_nbmsgs.')';
+    $0 = 'MailScanner: spam checks ('.$st_msgpos."/".$st_nbmsgs.')';
+    $message->{current_status} = 'MailScanner: spam checks ('.$st_msgpos."/".$st_nbmsgs.')';
     ## end SpamTagger
 
     # Tell SpamAssassin to apply rules to binary attachments

@@ -40,7 +40,7 @@ my $timeout = 120;
 # Modify this as necessary for your configuration
 ## SpamTagger
 my %config = readConfig("/etc/spamtagger.conf");
-my($db_name) = "mc_stats";
+my($db_name) = "st_stats";
 my($db_user) = "spamtagger";
 my($db_socket) = $config{'VARDIR'}."/run/mysql_slave/mysqld.sock";
 my($db_pass) = $config{'MYSPAMTAGGERPWD'};

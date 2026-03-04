@@ -990,14 +990,14 @@ sub PrependHeader {
 
 ## SpamTagger
 # Also necessary? Again, seems like we could use PrependHeader() above.
-# We don't even use the MC_NEWS tag, so we need to verify this.
+# We don't even use the ST_NEWS tag, so we need to verify this.
 sub PrependHeaderToOriginal {
   my($this, $message, $key, $data, $sep) = @_;
 
   $data = "" unless defined $data;
   chomp($data);
   foreach my $tmp (@{$message->{headers}}) {
-    $tmp =~ s/^Subject:/Subject: \{MC_NEWS\}/;
+    $tmp =~ s/^Subject:/Subject: \{ST_NEWS\}/;
   }
   return 1;
 }
@@ -1809,7 +1809,7 @@ sub PrependHeaderToOriginal {
   $data = "" unless defined $data;
   chomp($data);
   foreach my $tmp (@{$message->{headers}}) {
-    $tmp =~ s/^Subject:/Subject:\{MC_NEWS\}/;
+    $tmp =~ s/^Subject:/Subject:\{ST_NEWS\}/;
   }
   return 1;
 }

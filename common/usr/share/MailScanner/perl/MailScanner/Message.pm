@@ -1178,7 +1178,7 @@ sub HandleOtherThing {
   my ($this, $OtherThing) = @_;
 
   if ($OtherThing eq 'newsletter') {
-    $global::MS->{MTA}->PrependHeaderToOriginal($this, 'Subject:', '{MC_NEWS}', '');
+    $global::MS->{MTA}->PrependHeaderToOriginal($this, 'Subject:', '{ST_NEWS}', '');
   }
 }
 ## end SpamTagger

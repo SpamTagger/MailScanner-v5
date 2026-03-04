@@ -1,11 +1,11 @@
-Package: mc-mailscanner
+Package: st-mailscanner
 Version: DebianVersionHere
 Architecture: all
 Section: mail
 Priority: optional
-Maintainer: MailScanner Team <https://www.mailscanner.info>
+Maintainer: SpamTagger Team <support@spamtagger.org>
 Description: Open Source Email Gateway
  Virus, malware, phishing, and spam detection engine.
-Homepage: https://www.mailscanner.info
+Homepage: https://github.com/SpamTagger/MailScanner-v5
 Depends: perl (>=5.8.7)              
 Recommends: wget | curl, clamav, clamav-daemon, unrar, rsync, tnef, libconvert-tnef-perl, libdbd-mysql-perl, libfilesys-df-perl, libio-stringy-perl, libsys-hostname-long-perl, libnet-cidr-perl, libsys-sigaction-perl, libmailtools-perl, libmime-tools-perl, libnet-cidr-perl, libhtml-tokeparser-simple-perl, libarchive-zip-perl, libole-storage-lite-perl, libdbd-sqlite3-perl, libsys-syslog-perl, libsys-sigaction-perl 
