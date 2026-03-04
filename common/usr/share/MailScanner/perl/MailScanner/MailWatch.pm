@@ -565,7 +565,7 @@ sub updateCountFiles {
   close COUNTFILE;
 
   #MailScanner::Log::InfoLog("Count updated on file $file ");
- return $ret; 
+  return $ret;
 }
 
 
