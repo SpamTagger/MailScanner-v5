@@ -842,7 +842,7 @@ sub AddHeader {
   return 1;
 }
 
-## MailCleaner
+## SpamTagger
 # Is this needed? It seems that we could do this with AddHeader() above.
 sub AddHeaderToOriginal {
   my($this, $message, $newkey, $newvalue) = @_;
@@ -853,7 +853,7 @@ sub AddHeaderToOriginal {
   push @{$message->{headers}}, $newheader;
   return 1;
 }
-## end MailCleaner
+## end SpamTagger
 
 # This is how we build the entry that goes in the -H file
 #    sprintf("%03d  ", length($newheader)+1) . $newheader . "\n";
@@ -988,7 +988,7 @@ sub PrependHeader {
   return 1;
 }
 
-## MailCleaner
+## SpamTagger
 # Also necessary? Again, seems like we could use PrependHeader() above.
 # We don't even use the MC_NEWS tag, so we need to verify this.
 sub PrependHeaderToOriginal {
@@ -1001,7 +1001,7 @@ sub PrependHeaderToOriginal {
   }
   return 1;
 }
-## end MailCleaner
+## end SpamTagger
 
 sub TextStartsHeader {
   my($this, $message, $key, $text) = @_;
@@ -1793,7 +1793,7 @@ sub CheckQueueIsFlat {
   return 1;
 }
 
-## MailCleaner
+## SpamTagger
 sub AddHeaderToOriginal {
   my($this, $message, $newkey, $newvalue) = @_;
   my($newheader);
@@ -1813,6 +1813,6 @@ sub PrependHeaderToOriginal {
   }
   return 1;
 }
-## end MailCleaner
+## end SpamTagger
 
 1;

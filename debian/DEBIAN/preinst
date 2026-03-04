@@ -16,8 +16,8 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-## MailCleaner
-# Configs maintained by MailCleaner
+## SpamTagger
+# Configs maintained by SpamTagger
 ## back up their stuff
 #SAVEDIR="$HOME/ms_upgrade/saved.$$";
 #
@@ -74,7 +74,7 @@ set -e
 #if [ -d '/etc/MailScanner/autoupdate' ]; then
     #rm -rf /etc/MailScanner/autoupdate
 #fi
-## end MailCleaner
+## end SpamTagger
 
 # /usr/share/MailScanner/MailScanner
 if [ -d '/usr/share/MailScanner/MailScanner' ]; then
@@ -86,10 +86,10 @@ if [ -d '/var/lib/MailScanner' ]; then
     rm -rf /var/lib/MailScanner
 fi
     
-## MailCleaner
-# Configs and links maintained by MailCleaner
+## SpamTagger
+# Configs and links maintained by SpamTagger
 exit 0
-## end MailCleaner
+## end SpamTagger
 
 # /etc/MailScanner/custom symlink
 if [ -L '/etc/MailScanner/custom' ]; then

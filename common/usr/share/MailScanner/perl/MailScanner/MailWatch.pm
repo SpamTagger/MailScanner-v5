@@ -38,12 +38,12 @@ my $timeout = 120;
 
 
 # Modify this as necessary for your configuration
-## MAILCLEANER
-my %config = readConfig("/etc/mailcleaner.conf");
+## SpamTagger
+my %config = readConfig("/etc/spamtagger.conf");
 my($db_name) = "mc_stats";
-my($db_user) = "mailcleaner";
+my($db_user) = "spamtagger";
 my($db_socket) = $config{'VARDIR'}."/run/mysql_slave/mysqld.sock";
-my($db_pass) = $config{'MYMAILCLEANERPWD'};
+my($db_pass) = $config{'MYSPAMTAGGERPWD'};
 my($vardir) = $config{'VARDIR'};
 
  sub InitMailWatchLogging {
@@ -94,9 +94,9 @@ my($vardir) = $config{'VARDIR'};
  sub ExitLogging {
    # Server exit - commit changes, close socket, and exit gracefully.
    close(SERVER);
-## Olivier Diserens, for MailCleaner
+## Olivier Diserens, for SpamTagger
    #$dbh->commit;
-## end MailCleaner
+## end SpamTagger
    $dbh->disconnect;
    exit;
  }
@@ -343,12 +343,12 @@ my($vardir) = $config{'VARDIR'};
    } else {
      #MailScanner::Log::InfoLog("Not need to log message ".$message->{id}." to SQL: not quarantined");
    }
-   ## MAILCLEANER
+   ## SPAMTAGGER
    ## update messages counts
    updateCounts($message->{id}, $msg{date}, \@{$message->{to}}, $msg{isspam}, $msg{ishigh}, $msg{virusinfected}, $msg{nameinfected}, $msg{otherinfected}, $msg{size});
 }
 
-## MAILCLEANER
+## SPAMTAGGER
 sub updateCounts {
   my ($mid, $date, $tos_ref, $isspam, $ishigh, $virusinfected, $nameinfected, $otherinfected, $size) = @_;
 
@@ -372,7 +372,7 @@ sub updateCounts {
      my $t_domain = lc($2);
      my $t_user = lc($1);
 
-     my $domain_dir = $vardir."/spool/mailcleaner/counts/".$t_domain;
+     my $domain_dir = $vardir."/spool/spamtagger/counts/".$t_domain;
      if (! -d $domain_dir) {
        next if ! mkdir $domain_dir;
      }
@@ -424,7 +424,7 @@ sub updateCounts {
   }
 
 
-  updateCountFiles($vardir."/spool/mailcleaner/counts/_global", $date, $isspam, $ishigh, $virusinfected, $nameinfected, $otherinfected, $size, $newusers, $newdomains);
+  updateCountFiles($vardir."/spool/spamtagger/counts/_global", $date, $isspam, $ishigh, $virusinfected, $nameinfected, $otherinfected, $size, $newusers, $newdomains);
 
   MailScanner::Log::InfoLog("Count updated for $mid");
   if ($daemon_error eq 'NOERROR') {

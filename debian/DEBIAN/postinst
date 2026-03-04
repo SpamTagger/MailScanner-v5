@@ -69,8 +69,8 @@ install -d -o$runasuser -gmtagroup -m0775 /var/spool/MailScanner/quarantine
 install -d -o$runasuser -gmtagroup -m0775 /var/spool/MailScanner/milterin
 install -d -o$runasuser -gmtagroup -m0775 /var/spool/MailScanner/milterout
 
-## MailCleaner
-# Don't overwrite MailCleaner configs
+## SpamTagger
+# Don't overwrite SpamTagger configs
 #if [ -d '/etc/MailScanner/custom' -o -L '/etc/MailScanner/custom' ]; then
     #rm -f /etc/MailScanner/custom
 #fi
@@ -97,7 +97,7 @@ install -d -o$runasuser -gmtagroup -m0775 /var/spool/MailScanner/milterout
 #if [ -f '/etc/MailScanner/spam.assassin.prefs.conf' ]; then
     #mv -f /etc/MailScanner/spam.assassin.prefs.conf /etc/MailScanner/spamassassin.conf
 #fi
-## end MailCleaner
+## end SpamTagger
 
 # remove old symlink if present
 if [ -L '/etc/init.d/mailscanner' ]; then
@@ -151,11 +151,11 @@ elif [ ! -L '/etc/init.d/mailscanner' ]; then
     ln -s /usr/lib/MailScanner/init/msmilter-init /etc/init.d/msmilter
 fi
 
-## MailCleaner
-# Don't deply and update config files, these are managed by MailCleaner repo
-# Also don't enable in systemd, this managed with mailcleaner.target
+## SpamTagger
+# Don't deply and update config files, these are managed by SpamTagger repo
+# Also don't enable in systemd, this managed with spamtagger.target
 exit 0
-## end MailCleaner
+## end SpamTagger
 
 # create if missing
 [ -d '/etc/MailScanner/conf.d' ] || mkdir -p /etc/MailScanner/conf.d

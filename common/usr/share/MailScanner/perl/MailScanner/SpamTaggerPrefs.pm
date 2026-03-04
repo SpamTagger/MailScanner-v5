@@ -10,7 +10,7 @@ $VERSION = substr q$Revision: 1.5 $, 10;
 
 my($dbh);
 my($sth);
-my %config = readConfig("/etc/mailcleaner.conf");
+my %config = readConfig("/etc/spamtagger.conf");
 my $srcdir = $config{'SRCDIR'};
 if ($srcdir =~ /(\S+)/) {
   unshift (@INC, $1."/lib");

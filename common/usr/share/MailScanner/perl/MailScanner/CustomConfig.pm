@@ -29,9 +29,9 @@ no  strict 'subs'; # Allow bare words for parameter %'s
 
 use vars qw($VERSION);
 
-## MailCleaner
+## SpamTagger
 require 'MailScanner/MailWatch.pm';
-## end MailCleaner
+## end SpamTagger
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
 $VERSION = substr q$Revision: 4378 $, 10;

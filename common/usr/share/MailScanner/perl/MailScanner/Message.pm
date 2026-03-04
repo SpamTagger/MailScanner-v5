@@ -244,7 +244,7 @@ sub new {
   }
   #  or return 'INVALID'; # Return empty if fails
 
-  ## MailCleaner
+  ## SpamTagger
   # Get real client IP from headers
   # We should probably be able to do this is SpamHandler...
   my @trusted_ips = split / /, MailScanner::Config::Value('trustedips', $this);
@@ -273,7 +273,7 @@ sub new {
       }
     }
   }
-  ## end MailCleaner
+  ## end SpamTagger
 
   # Are we in milter mode, and has the message been requeued
   # from a local relay reject?
@@ -621,14 +621,14 @@ sub IsSpam {
   my $LocalSpamText = MailScanner::Config::LanguageValue($this, 'spam');
   my $LocalNotSpamText = MailScanner::Config::LanguageValue($this, 'notspam');
 
-  ## MailCleaner
+  ## SpamTagger
   # enabling Profiler
   # there may be no other way to get this information without this...
   my $profiler = MailScanner::Profiler::new();
   # Track results. This should also be possible in SpamHandler...
   $this->{batchdropped} = 0;
   $this->{isnewsletter} = 0;
-  ## end MailCleaner
+  ## end SpamTagger
 
   #print STDERR "MTime{" . $this->{id} . "} = " . $this->{mtime} . "\n";
 
@@ -653,7 +653,7 @@ sub IsSpam {
   $this->{spamreport} = "";
   $this->{sascore} = 0;
 
-  ## MailCleaner
+  ## SpamTagger
   # Add pre filter checks
   # This is the essential function of our modifications. We need to find if this can be implemented through a plugin instead.
   my $class = "MailScanner::Accounting";
@@ -812,7 +812,7 @@ sub IsSpam {
       # end Newsletter
     }
   }
-  ## end MailCleaner
+  ## end SpamTagger
 
   # Work out if they always want the SA header
   $includesaheader = MailScanner::Config::Value('includespamheader', $this);
@@ -1172,7 +1172,7 @@ sub IsSpam {
   return $this->{isspam};
 }
 
-## MailCleaner
+## SpamTagger
 # Subject tagging for newsletters. We should be able to do this with SpamHandler.
 sub HandleOtherThing {
   my ($this, $OtherThing) = @_;
@@ -1181,7 +1181,7 @@ sub HandleOtherThing {
     $global::MS->{MTA}->PrependHeaderToOriginal($this, 'Subject:', '{MC_NEWS}', '');
   }
 }
-## end MailCleaner
+## end SpamTagger
 
 # Do whatever is necessary with this message to deal with spam.
 # We can assume the message passed is indeed spam (isspam==true).
@@ -7252,16 +7252,16 @@ sub DisarmHTML {
   $DisarmIframeTag   = 1 if $this->{tagstoconvert} =~ /iframe/i;
   $DisarmWebBug      = 1 if $this->{tagstoconvert} =~ /webbug/i;
 
-  ## MailCleaner
+  ## SpamTagger
   # whitelist HTML controls
   # This may not be possible to do with a module, except to duplicate the HTML controls to the module, disable it in the global config, and just apply it selectively in the module.
-  my $wl_HTML = '/var/mailcleaner/spool/tmp/mailscanner/whitelist_HTML';
+  my $wl_HTML = '/var/spamtagger/spool/tmp/mailscanner/whitelist_HTML';
   my @cidr;
 
   # Whitelisted by IP
   my $HTML_whitelisted = 0;
   foreach my $header_line (@{$this->{headers}}) {
-    if ($header_line =~ /^X-MailClenaer-HTML-WL: Ok$/ ) {
+    if ($header_line =~ /^X-SpamTagger-HTML-WL: Ok$/ ) {
       MailScanner::Log::NoticeLog('Message '.$this->{id}." : the address ".$this->{clientip}." is whitelisted for HTML controls", $this->{id});
       $HTML_whitelisted= 1;
     }
@@ -7317,7 +7317,7 @@ sub DisarmHTML {
     $DisarmIframeTag = 0;
     $DisarmWebBug = 0;
   }
-  ## end MailCleaner
+  ## end SpamTagger
 
   $PhishingSubjectTag= 1
     if MailScanner::Config::Value('tagphishingsubject', $this) =~ /1/;
@@ -7873,19 +7873,19 @@ sub DisarmHTMLEntity {
   return @DisarmDoneSomething;
 }
 
-## MailCleaner
+## SpamTagger
 # Track position inside head and script to avoid disraming non-exploitable content.
 our ($DisarmInsideHead, $DisarmInsideScript) = (0, 0);
-## end MailCleaner
+## end SpamTagger
 
 # HTML::Parser callback for text so we can collect the contents of links
 sub DisarmTextCallback {
   my($text) = @_;
 
-  ## MailCleaner
+  ## SpamTagger
   #unless ($DisarmInsideLink) {
   unless ($DisarmInsideLink || ($DisarmInsideHead && $DisarmInsideScript)) {
-  ## end MailCleaner
+  ## end SpamTagger
     print $text;
     #print STDERR "DisarmText just printed \"$text\"\n";
     return;
@@ -7907,21 +7907,21 @@ sub DisarmTagCallback {
   my $output = "";
   my $webbugfilename;
 
-  ## MailCleaner
+  ## SpamTagger
   # Set head flag if inside head tag, skip disarming
   #if ($tagname eq 'form' && $DisarmFormTag) {
   if ($tagname eq 'head') {
     $DisarmInsideHead = 1;
     $output .= $text;
   } elsif ($tagname eq 'form' && $DisarmFormTag) {
-  ## end MailCleaner
+  ## end SpamTagger
     #print "It's a form\n";
     $text = substr $text, 1;
-    ## MailCleaner
+    ## SpamTagger
     # Hide element that is being disabled
     #$output .= "<BR><MailScannerForm$$ " . $text;
     $output .= "<BR><MailScannerForm$$ style=\"display: none;\" " . $text;
-    ## end MailCleaner
+    ## end SpamTagger
     $DisarmDoneSomething{'form'} = 1;
   } elsif ($tagname eq 'input' && $DisarmFormTag) {
     #print "It's an input button\n";
@@ -7947,19 +7947,19 @@ sub DisarmTagCallback {
     #print "It's an object\n";
     if (exists $attr->{'codebase'}) {
       $text = substr $text, 1;
-      ## MailCleaner
+      ## SpamTagger
       # Hide element that is being disabled
       #$output .= "<MailScannerObject$$ " . $text;
       $output .= "<MailScannerObject$$ style=\"display: none;\" " . $text;
-      ## end MailCleaner
+      ## end SpamTagger
       $DisarmDoneSomething{'object codebase'} = 1;
     } elsif (exists $attr->{'data'}) {
       $text = substr $text, 1;
-      ## MailCleaner
+      ## SpamTagger
       # Hide element that is being disabled
       #$output .= "<MailScannerObject$$ " . $text;
       $output .= "<MailScannerObject$$ style=\"display: none;\" " . $text;
-      ## end MailCleaner
+      ## end SpamTagger
       $DisarmDoneSomething{'object data'} = 1;
     } else {
       $output .= $text;
@@ -7967,23 +7967,23 @@ sub DisarmTagCallback {
   } elsif ($tagname eq 'iframe' && $DisarmIframeTag) {
     #print "It's an iframe\n";
     $text = substr $text, 1;
-    ## MailCleaner
+    ## SpamTagger
     # Hide element that is being disabled
     #$output .= "<MailScannerIFrame$$ " . $text;
     $output .= "<MailScannerIFrame$$ style=\"display: none;\" " . $text;
-    ## end MailCleaner
+    ## end SpamTagger
     $DisarmDoneSomething{'iframe'} = 1;
   } elsif ($tagname eq 'script' && $DisarmScriptTag) {
     #print "It's a script\n";
     $text = substr $text, 1;
-    ## MailCleaner
+    ## SpamTagger
     # Hide element that is being disabled
     #$output .= "<MailScannerScript$$ " . $text;
     $DisarmInsideScript = 1;
     unless ($DisarmInsideHead) {
       $output .= "<MailScannerScript$$ style=\"display: none;\" " . $text;
     }
-    ## end MailCleaner
+    ## end SpamTagger
     $DisarmDoneSomething{'script'} = 1;
   } elsif ($tagname eq 'a' && $DisarmPhishing) {
     #print STDERR "It's a link\n";
@@ -8073,27 +8073,27 @@ sub DisarmTagCallback {
 sub DisarmEndtagCallback {
   my($tagname, $text, $id) = @_;
 
-  ## MailCleaner
+  ## SpamTagger
   # Remove head flag
   #if ($tagname eq 'iframe' && $DisarmIframeTag) {
   if ($tagname eq 'head') {
     $DisarmInsideHead = 0;
     print $text;
   } elsif ($tagname eq 'iframe' && $DisarmIframeTag) {
-  ## end MailCleaner
+  ## end SpamTagger
     print "</MailScannerIFrame$$>";
     $DisarmDoneSomething{'iframe'} = 1;
   } elsif ($tagname eq 'form' && $DisarmFormTag) {
     print "</MailScannerForm$$>";
     $DisarmDoneSomething{'form'} = 1;
   } elsif ($tagname eq 'script' && $DisarmScriptTag) {
-    ## MailCleaner
+    ## SpamTagger
     #print "</MailScannerScript$$>";
     $DisarmInsideScript = 0;
     unless ($DisarmInsideHead) {
       print "</MailScannerScript$$>";
     }
-    ## end MailCleaner
+    ## end SpamTagger
     $DisarmDoneSomething{'script'} = 1;
   } elsif ($tagname eq 'map' && $DisarmAreaURL) {
     # We are inside an imagemap that is part of a phishing imagemap

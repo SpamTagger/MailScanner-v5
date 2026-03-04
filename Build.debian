@@ -66,13 +66,13 @@ fi
 mkdir -p $WORK
 mkdir -p $WORK/{usr,etc}
 
-## MailCleaner
-# Don't copy config files to MailCleaner repo
+## SpamTagger
+# Don't copy config files to SpamTagger repo
 ## etc
 #cp -fr $DEVBASEDIR/common/etc/*	$WORK/etc/
 mkdir -p $WORK/etc/MailScanner
 cp -fr $DEVBASEDIR/common/etc/MailScanner/MailScanner.conf $WORK/etc/MailScanner/MailScanner.conf
-## end MailCleaner
+## end SpamTagger
 cp -fr $DEVBASEDIR/debian/etc/*	$WORK/etc/
 
 # usr
