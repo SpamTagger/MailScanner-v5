@@ -749,5 +749,5 @@ AdditionalLibraryPaths
 usespamcache            0       no      0       yes     1
 spamcachedatabasefile
 spamcachetimings
-EximCommand             /opt/exim4/bin/exim
+EximCommand             /usr/bin/exim
 ## end SpamTagger
