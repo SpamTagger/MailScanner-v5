@@ -16,62 +16,65 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-# back up their stuff
-SAVEDIR="$HOME/ms_upgrade/saved.$$";
-
-if [ -f '/etc/default/mailscanner' ]; then
-    mkdir -p ${SAVEDIR}/etc/default
-    cp -f /etc/default/mailscanner ${SAVEDIR}/etc/default/mailscanner
-    rm -f /etc/default/mailscanner
-fi
-
-if [ -f '/etc/default/MailScanner' ]; then
-    mkdir -p ${SAVEDIR}/etc/default
-    cp -f /etc/default/MailScanner ${SAVEDIR}/etc/default/MailScanner
-    rm -f /etc/default/MailScanner
-fi
-
-if [ -d '/usr/lib/MailScanner/MailScanner/CustomFunctions' ]; then
-    mkdir -p ${SAVEDIR}/usr/lib/MailScanner/MailScanner/CustomFunctions
-    cp -rf /usr/lib/MailScanner/MailScanner/CustomFunctions ${SAVEDIR}/usr/lib/MailScanner/MailScanner/
-    rm -rf /usr/lib/MailScanner
-fi
-
-if [ -d '/etc/MailScanner/CustomFunctions' ]; then
-    mkdir -p ${SAVEDIR}/etc/MailScanner/CustomFunctions
-    cp -rf /etc/MailScanner/CustomFunctions ${SAVEDIR}/etc/MailScanner/
-    rm -rf /etc/MailScanner/CustomFunctions
-fi
-
-if [ -d '/etc/MailScanner/Custom' ]; then
-    mkdir -p ${SAVEDIR}/etc/MailScanner/Custom
-    cp -rf /etc/MailScanner/Custom ${SAVEDIR}/etc/MailScanner/
-    rm -rf /etc/MailScanner/Custom
-fi
-
-if [ -f '/etc/MailScanner/CustomConfig.pm' ]; then
-    mkdir -p ${SAVEDIR}/etc/MailScanner
-    cp -f /etc/MailScanner/CustomConfig.pm ${SAVEDIR}/etc/MailScanner/
-    rm -f /etc/MailScanner/CustomConfig.pm
-fi
-
-if [ -d '/etc/MailScanner/reports' ]; then
-    mkdir -p ${SAVEDIR}/etc/MailScanner/reports
-    cp -pr /etc/MailScanner/reports ${SAVEDIR}/etc/MailScanner/reports
-    rm -rf /etc/MailScanner/reports
-fi
-
-if [ -d '/etc/MailScanner/custom' ]; then
-    rm -rf /etc/MailScanner/custom
-fi
-
-if [ -d '/etc/MailScanner/wrapper' ]; then
-    rm -rf /etc/MailScanner/wrapper
-fi
-
-if [ -d '/etc/MailScanner/autoupdate' ]; then
-    rm -rf /etc/MailScanner/autoupdate
-fi
+## SpamTagger
+# Configs maintained by SpamTagger
+## back up their stuff
+#SAVEDIR="$HOME/ms_upgrade/saved.$$";
+#
+#if [ -f '/etc/default/mailscanner' ]; then
+    #mkdir -p ${SAVEDIR}/etc/default
+    #cp -f /etc/default/mailscanner ${SAVEDIR}/etc/default/mailscanner
+    #rm -f /etc/default/mailscanner
+#fi
+#
+#if [ -f '/etc/default/MailScanner' ]; then
+    #mkdir -p ${SAVEDIR}/etc/default
+    #cp -f /etc/default/MailScanner ${SAVEDIR}/etc/default/MailScanner
+    #rm -f /etc/default/MailScanner
+#fi
+#
+#if [ -d '/usr/lib/MailScanner/MailScanner/CustomFunctions' ]; then
+    #mkdir -p ${SAVEDIR}/usr/lib/MailScanner/MailScanner/CustomFunctions
+    #cp -rf /usr/lib/MailScanner/MailScanner/CustomFunctions ${SAVEDIR}/usr/lib/MailScanner/MailScanner/
+    #rm -rf /usr/lib/MailScanner
+#fi
+#
+#if [ -d '/etc/MailScanner/CustomFunctions' ]; then
+    #mkdir -p ${SAVEDIR}/etc/MailScanner/CustomFunctions
+    #cp -rf /etc/MailScanner/CustomFunctions ${SAVEDIR}/etc/MailScanner/
+    #rm -rf /etc/MailScanner/CustomFunctions
+#fi
+#
+#if [ -d '/etc/MailScanner/Custom' ]; then
+    #mkdir -p ${SAVEDIR}/etc/MailScanner/Custom
+    #cp -rf /etc/MailScanner/Custom ${SAVEDIR}/etc/MailScanner/
+    #rm -rf /etc/MailScanner/Custom
+#fi
+#
+#if [ -f '/etc/MailScanner/CustomConfig.pm' ]; then
+    #mkdir -p ${SAVEDIR}/etc/MailScanner
+    #cp -f /etc/MailScanner/CustomConfig.pm ${SAVEDIR}/etc/MailScanner/
+    #rm -f /etc/MailScanner/CustomConfig.pm
+#fi
+#
+#if [ -d '/etc/MailScanner/reports' ]; then
+    #mkdir -p ${SAVEDIR}/etc/MailScanner/reports
+    #cp -pr /etc/MailScanner/reports ${SAVEDIR}/etc/MailScanner/reports
+    #rm -rf /etc/MailScanner/reports
+#fi
+#
+#if [ -d '/etc/MailScanner/custom' ]; then
+    #rm -rf /etc/MailScanner/custom
+#fi
+#
+#if [ -d '/etc/MailScanner/wrapper' ]; then
+    #rm -rf /etc/MailScanner/wrapper
+#fi
+#
+#if [ -d '/etc/MailScanner/autoupdate' ]; then
+    #rm -rf /etc/MailScanner/autoupdate
+#fi
+## end SpamTagger
 
 # /usr/share/MailScanner/MailScanner
 if [ -d '/usr/share/MailScanner/MailScanner' ]; then
@@ -83,6 +86,11 @@ if [ -d '/var/lib/MailScanner' ]; then
     rm -rf /var/lib/MailScanner
 fi
     
+## SpamTagger
+# Configs and links maintained by SpamTagger
+exit 0
+## end SpamTagger
+
 # /etc/MailScanner/custom symlink
 if [ -L '/etc/MailScanner/custom' ]; then
     rm -f /etc/MailScanner/custom

@@ -249,13 +249,25 @@ sub SpamChecks {
   # If the cache contents have expired then clean it all up first
   MailScanner::SA::CheckForCacheExpire();
 
+  ## SpamTagger
+  my $st_msgpos = 0;
+  my $st_nbmsgs = keys(%{$this->{messages}});
+  ## end SpamTagger
+
   while(($id, $message) = each %{$this->{messages}}) {
+    ## SpamTagger
+    $st_msgpos++;
+    ## end SpamTagger
     next if !$message->{scanmail};
     next if $message->{deleted};
     next if $message->{scanvirusonly}; # Over-rides Spam Checks setting
     next unless MailScanner::Config::Value('spamchecks', $message) =~ /1/;
  
     #print STDERR "Spam checks for $id\n";
+    ## SpamTagger
+    $0 = 'MailScanner: spam checks ('.$st_msgpos."/".$st_nbmsgs.')';
+    $message->{current_status} = 'MailScanner: spam checks ('.$st_msgpos."/".$st_nbmsgs.')';
+    ## end SpamTagger
 
     # Tell SpamAssassin to apply rules to binary attachments
     # This relies on a patch to Util.pm in SpamAssassin, fetch the patch from
@@ -323,6 +335,19 @@ sub HandleHam {
 
   #print STDERR "Finished handling ham\n\n";
 }
+
+## SpamTagger
+# Handle newsletter action
+sub HandleOtherThings {
+  my $this = shift;
+  my ($id, $message);
+
+  while (($id, $message) = each %{$this->{message}}) {
+    next if $message->{deleted} || !$message->{isnewsletter};
+    $message->HandleOtherThing('newsletter');
+  }
+}
+## end SpamTagger
 
 # Reject messages that come from people we want to reject. Send nice report
 # instead.
@@ -1427,6 +1452,9 @@ sub DropBatch {
     $message->{deleted} = 1;
     $message->{gonefromdisk} = 1; # Don't try to delete the original
     $message->{store}->Unlock(); # Unlock it so other processes can pick it up
+    ## SpamTagger
+    $message->{batchdropped} = 1;
+    ## end SpamTagger
   }
 
   # This is a very good place for a snooze.

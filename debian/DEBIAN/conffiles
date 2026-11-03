@@ -1,14 +1,3 @@
-/etc/MailScanner/defaults
-/etc/MailScanner/archives.filename.rules.conf
-/etc/MailScanner/archives.filetype.rules.conf
-/etc/MailScanner/filename.rules.conf
-/etc/MailScanner/filetype.rules.conf
-/etc/MailScanner/mcp/mcp.spamassassin.conf
-/etc/MailScanner/rules/bounce.rules
-/etc/MailScanner/rules/max.message.size.rules
-/etc/MailScanner/rules/spam.whitelist.rules
-/etc/MailScanner/rules/external.message.rules
-/etc/MailScanner/spamassassin.conf
 /etc/logcheck/ignore.d.server/mailscanner
 /etc/logcheck/ignore.d.workstation/mailscanner
 /usr/share/MailScanner/reports/ca/deleted.content.message.txt

@@ -739,3 +739,15 @@ allowfiletypes
 denyfilenames
 saactions
 
+## SpamTagger
+profile                 0       no      0       yes     1
+PreFilterTimeout                20
+PreFilters              ""
+PreFilterConfigurations ""
+TrustedIps
+AdditionalLibraryPaths
+usespamcache            0       no      0       yes     1
+spamcachedatabasefile
+spamcachetimings
+EximCommand             /usr/bin/exim
+## end SpamTagger
